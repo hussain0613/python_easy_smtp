@@ -3,6 +3,8 @@ from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 from email.message import Message
 
+import typing
+
 
 class MultipartMessage():
     """
@@ -15,7 +17,7 @@ class MultipartMessage():
 
     For the lazy people, by the a lazy person.
     """
-    def __init__(self, subject: str, sender: str, recipients: str | list[str]):
+    def __init__(self, subject: str, sender: str, recipients: typing.Union(str, list[str])):
         self.subject = subject
         self.sender = sender
         
