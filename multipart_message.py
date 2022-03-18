@@ -17,7 +17,7 @@ class MultipartMessage():
 
     For the lazy people, by the a lazy person.
     """
-    def __init__(self, subject: str, sender: str, recipients: typing.Union(str, list[str])):
+    def __init__(self, subject: str, sender: str, recipients: typing.Union[str, list[str]] = None):
         self.subject = subject
         self.sender = sender
         

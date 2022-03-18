@@ -21,7 +21,7 @@ class SMTPClient():
         else: 
             self.use_tls = True
 
-    def send_message(self, msgobj, from_addr: str = None, to_addrs: typing.Union(str, Sequence[str]) = None) -> None:
+    def send_message(self, msgobj, from_addr: str = None, to_addrs: typing.Union[str, Sequence[str]] = None) -> None:
         """
         Send the email message.
         A wrapper around smtplib.SMTP(...).send_message.
