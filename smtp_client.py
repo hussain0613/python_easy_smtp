@@ -20,16 +20,28 @@ class SMTPClient():
             self.use_tls = False
         else: 
             self.use_tls = True
+        
+        if(config.get("MAIL_USE_SSL", '1') == '1'): 
+            self.use_ssl = True
+        else: 
+            self.use_ssl = False
 
+    
     def send_message(self, msgobj, from_addr: str = None, to_addrs: typing.Union[str, Sequence[str]] = None) -> None:
         """
         Send the email message.
         A wrapper around smtplib.SMTP(...).send_message.
         """
-        with smtplib.SMTP(self.host, self.port) as server:
-            if(self.use_tls):
-                server.starttls()
-            if(self.username and self.password):
-                server.login(self.username, self.password)
-            server.send_message(msgobj, from_addr=from_addr, to_addrs=to_addrs)
+        if self.use_ssl:
+            with smtplib.SMTP_SSL(self.host, self.port) as server:
+                if(self.username and self.password):
+                    server.login(self.username, self.password)
+                server.send_message(msgobj, from_addr=from_addr, to_addrs=to_addrs)
+        else:
+            with smtplib.SMTP(self.host, self.port) as server:
+                if(self.use_tls):
+                    server.starttls()
+                if(self.username and self.password):
+                    server.login(self.username, self.password)
+                server.send_message(msgobj, from_addr=from_addr, to_addrs=to_addrs)
 
