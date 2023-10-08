@@ -16,15 +16,18 @@ class SMTPClient():
         self.username = config.get("MAIL_USERNAME", None)
         self.password = config.get("MAIL_PASSWORD", None)
 
-        if(config.get("MAIL_USE_TLS", '0') == '0'): 
+        self.use_tls = config.get("MAIL_USE_TLS")
+        self.use_ssl = config.get("MAIL_USE_SSL")
+
+        if not self.use_tls or (isinstance(self.use_tls, str) and (self.use_tls.lower() == 'false' or self.use_tls == '0')): 
             self.use_tls = False
-        else: 
+        else:
             self.use_tls = True
         
-        if(config.get("MAIL_USE_SSL", '1') == '1'): 
-            self.use_ssl = True
-        else: 
+        if not self.use_ssl or (isinstance(self.use_ssl, str) and (self.use_ssl.lower() == 'false' or self.use_ssl == '0')):
             self.use_ssl = False
+        else:
+            self.use_ssl = True
 
     
     def send_message(self, msgobj, from_addr: str = None, to_addrs: typing.Union[str, Sequence[str]] = None) -> None:
